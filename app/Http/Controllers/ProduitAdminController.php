@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Categorie;
 
 class ProduitAdminController extends Controller
 {
@@ -65,8 +66,12 @@ class ProduitAdminController extends Controller
         {
 
         $product = Product::find($id);
+        $categories = Categorie::all() ;
+
         
-        return view('modifier_produit',['product' => $product]);
+        
+        return view('modifier_produit',['product' => $product, 
+        'categories' => $categories]);
 
         }
 
@@ -80,10 +85,17 @@ class ProduitAdminController extends Controller
         $product->prix = $request->prix;
     
         $product->save();
+
+        $product->categories()->sync($request->categorie_id);
     
     return redirect('/liste_produits');
 
         }
+
+
+
+
+        
 
         public function supprimerProduit(Request $request,$id)
         {

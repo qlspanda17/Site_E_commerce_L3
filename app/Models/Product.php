@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use App\Models\Post;
 class Product extends Model
 {
     use HasFactory ;
@@ -12,4 +12,14 @@ class Product extends Model
         "description",
         "prix",
         "stock" ] ;
+
+
+
+    public function categories()
+{
+    return $this->belongsToMany(
+        Categorie::class
+    );
+}
+
 }

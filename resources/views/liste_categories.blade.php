@@ -6,28 +6,33 @@
     <title>Document</title>
 </head>
 
-
 <body>
-    <h1>Liste catégories</h1>
+     <h1>Liste de catégories</h1>
 
-@foreach($categories as $categorie)
+    @foreach( $categories as $categorie)
 
-<p>
+    <p>
 
-    {{ $categorie->nom }}
+        {{ $categorie->nom }}
+        {{ $categorie->description }}
 
 
 
-    <a href="/modifier_categorie/{{ $categorie->id }}">
-        Modifier
+        <br> <br> 
+        <a href="/modifier_categorie/{{ $categorie->id }}">
+            Modifier
+        </a>
+        <br> <br> 
+        <a href="/supprimer_categorie/{{$categorie->id }}">
+        Supprimer
     </a>
+        <br> <br> 
+    </p>
 
-    <a href="/supprimer_categorie/{{$categorie->id }}">
-    Supprimer
-</a>
+    @endforeach
 
-</p>
-
-@endforeach
+    <br> <br> 
+    <a id="retour" href="{{ url('/') }}">Retour</a>
+    
 </body>
 </html>

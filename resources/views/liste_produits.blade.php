@@ -13,19 +13,23 @@
         {{ $product->nom }}
 
         {{ $product->prix }} €
+
+        
     </p>
     
-    <br>
+    <br> <br> 
 
     <a href="/modifier_produit/{{ $product->id }}" >
         Modifier
     </a>
 
-    <br> 
+   <br> <br> 
     <a href="/supprimer_produit/{{ $product->id }}">
         Supprimer
     </a>
     @endforeach
+        <br> <br> 
+    <a id="retour" href="{{ url('/') }}">Retour</a>
 
 </body>
 </html>

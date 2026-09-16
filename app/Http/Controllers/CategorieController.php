@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Categorie;
+use App\Models\Product ;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,8 @@ class CategorieController extends Controller
         return view("categorie") ;
 
     }
+
+
 
     public function traiterCategorie(Request $request) {
 
@@ -41,6 +44,9 @@ class CategorieController extends Controller
 
     }
 
+
+
+
     public function listeCategories()
 {
     $categories = Categorie::all();
@@ -53,6 +59,9 @@ class CategorieController extends Controller
     );
     return redirect('/liste_categories');
 }
+
+
+
 
     public function modifierCategorie($id)
 {
@@ -68,10 +77,10 @@ class CategorieController extends Controller
     
 }
 
-    public function majCategorie(
-    Request $request,
-    $id
-)
+
+
+
+    public function majCategorie(Request $request,$id)
 
 {
     $categorie = Categorie::find($id);

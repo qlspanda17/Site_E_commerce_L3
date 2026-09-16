@@ -35,13 +35,9 @@
                                 Nombre de catégorie :
                                 {{ $nbCategories }}
                             </p>
-                            <a id="inscrit" href="{{ url('/liste_categories') }}" class="btn btn-outline-secondary btn-lg"> Afficher les categories</a>
+                            <a id="categorie" href="{{ url('/liste_categories') }}" class="btn btn-outline-secondary btn-lg"> Afficher les categories</a>
 
-    
-                
-
-                                
-
+                    <br> <br>
                     <p>Voulez-vous vous déconnecter ?</p>
 
                     <a href="{{ url('/deconnexion') }}" class="btn btn-outline-danger btn-lg" onclick="event.preventDefault();document.getElementById('deconnexion-form').submit();">Se déconnecter</a>
@@ -53,7 +49,7 @@
 
 
                 
-                <br><br>
+                    <br><br>
 
                     <a id="Enregistrer" href="{{ url('/register') }}" class="btn btn-primary btn-lg">Enregistrer un nouveau colis</a>
 
@@ -65,6 +61,7 @@
 
                     <a id="nom" href="{{ url('/categorie') }}" class="btn btn-outline-secondary btn-lg">Ajouter des categories</a>
 
+                    <br> <br>
                     <a id="retour" href="{{ url('/') }}">Retour</a>
 
 

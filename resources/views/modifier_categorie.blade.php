@@ -12,9 +12,9 @@
             @csrf
             
             <input name= "nom" value="{{ $categorie->nom }}">
-
+            <br> <br> 
             <input type="description" name="description" value="{{ $categorie->description }}">
-            
+            <br> <br> 
             <button type="submit">
                 Modifier
             </button>
