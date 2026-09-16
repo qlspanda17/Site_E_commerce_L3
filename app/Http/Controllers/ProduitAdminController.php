@@ -31,7 +31,6 @@ class ProduitAdminController extends Controller
 
         ]); 
 
-            
 
             $produit_admin = Product::create([
 
@@ -42,16 +41,69 @@ class ProduitAdminController extends Controller
 
             ]);
 
+            return redirect('/produit_admin');
 
-
-
-
-            
-
-
-
-        
 
 
     }
+
+
+    public function listeProduits()
+{
+        $products = Product::all();
+
+    return view(
+        'liste_produits',
+        [
+            'products' => $products
+        ]
+    );
+}
+
+  
+        public function modifierProduit($id)
+        {
+
+        $product = Product::find($id);
+        
+        return view('modifier_produit',['product' => $product]);
+
+        }
+
+
+    public function majProduit(Request $request,$id)
+        {
+        $product = Product::find($id);
+        
+        $product->nom = $request->nom;
+        
+        $product->prix = $request->prix;
+    
+        $product->save();
+    
+    return redirect('/liste_produits');
+
+        }
+
+        public function supprimerProduit(Request $request,$id)
+        {
+
+        $product = Product::find($id);
+        
+        $product->delete() ;
+        
+    
+        return redirect('/liste_produits');
+
+        }
+
+
+
+
+
+
+
+
+
+
 }

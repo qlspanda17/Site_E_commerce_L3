@@ -23,12 +23,19 @@
 
                             <p class="lead">Bienvenue chez Pancha, le leader du marché du sport en France</p>
 
-                            @if ($nbParcels > 0)
-                                <p>Il y a {{ $nbParcels }} colis en traitement</p>
-                            @else
-                                <p>Aucun colis en traitement</p>
-                            @endif
-    
+                            <p>
+                            
+                                Nombre de produits :
+                                {{ $nbProduits }}
+                            </p>
+                            <br>
+                            <a id="inscrit" href="{{ url('/liste_produits') }}" class="btn btn-outline-secondary btn-lg"> Afficher les produits</a>
+                            <p>
+                            
+                                Nombre de catégorie :
+                                {{ $nbCategories }}
+                            </p>
+                            <a id="inscrit" href="{{ url('/liste_categories') }}" class="btn btn-outline-secondary btn-lg"> Afficher les categories</a>
 
     
                 

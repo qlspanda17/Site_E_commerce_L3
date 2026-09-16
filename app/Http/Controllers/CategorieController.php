@@ -36,12 +36,68 @@ class CategorieController extends Controller
 
         ]) ;
 
-
-
-
+        return redirect('/liste_categories');
 
 
     }
+
+    public function listeCategories()
+{
+    $categories = Categorie::all();
+
+    return view(
+        'liste_categories',
+        [
+            'categories' => $categories
+        ]
+    );
+    return redirect('/liste_categories');
+}
+
+    public function modifierCategorie($id)
+{
+    $categorie = Categorie::find($id);
+
+    return view(
+        'modifier_categorie',
+        [
+            'categorie' => $categorie
+        ]
+    );
+
+    
+}
+
+    public function majCategorie(
+    Request $request,
+    $id
+)
+
+{
+    $categorie = Categorie::find($id);
+
+    $categorie->nom = $request->nom;
+    $categorie->description = $request->description;
+
+
+    $categorie->save();
+
+    return redirect('/liste_categories');
+}
+
+
+
+
+
+    public function supprimerCategorie($id)
+{
+    $categorie = Categorie::find($id);
+
+    $categorie->delete();
+
+    return redirect('/liste_categories');
+}
+
 
 
 

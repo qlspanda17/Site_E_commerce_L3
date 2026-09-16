@@ -11,6 +11,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\AuthController ;
+use App\Models\Product;
+use App\Models\Categorie;
 
 class AdminController extends Controller
 {
@@ -22,14 +24,20 @@ class AdminController extends Controller
 
     public function admin() {
 
-        $parcels = Parcel::all() ;
+        $nbProduits = Product::count();;
 
-        $nbParcels = count($parcels) ;
+        $nbCategories = Categorie::count();
 
-        return view('admin',['nbParcels' => $nbParcels] ) ;
+        return view('admin',[
+            'nbProduits' => $nbProduits,
+            'nbCategories' => $nbCategories
+        ]);
 
     }
 
+    
+
+    
 
 
 
