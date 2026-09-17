@@ -39,7 +39,7 @@ class CategorieController extends Controller
 
         ]) ;
 
-        return redirect('/liste_categories');
+        return redirect('/categorie');
 
 
     }

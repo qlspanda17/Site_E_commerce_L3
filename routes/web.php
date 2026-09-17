@@ -22,6 +22,9 @@ use App\Http\Controllers\ConnexionController ;
 
 use App\Http\Controllers\InscriptionController ;
 
+use App\Http\Controllers\PanierController ;
+
+
 
 
 
@@ -59,6 +62,20 @@ Route::post('/modifier_categorie/{id}',[CategorieController::class,'majCategorie
 Route::get('/supprimer_categorie/{id}',[CategorieController::class,'supprimerCategorie']);
 
 Route::get('/admin',[AdminController::class,'admin']) ;
+
+Route::get('/panier',[PanierController::class,'panier_index']) ;
+
+Route::get('/ajouter_panier/{id}',[PanierController::class,'ajouter']) ;
+
+Route::get('/vider_panier', function()
+{
+    session()->forget('panier');
+
+    return "Panier vidé";
+});
+
+
+
 
 
 

@@ -37,6 +37,10 @@
                             </p>
                             <a id="categorie" href="{{ url('/liste_categories') }}" class="btn btn-outline-secondary btn-lg"> Afficher les categories</a>
 
+                            <br><br>
+
+                            <a id="nom" href="{{ url('/panier') }}" class="btn btn-outline-secondary btn-lg">Acceder au panier</a>
+
                     <br> <br>
                     <p>Voulez-vous vous déconnecter ?</p>
 
@@ -60,6 +64,8 @@
                     <br><br>
 
                     <a id="nom" href="{{ url('/categorie') }}" class="btn btn-outline-secondary btn-lg">Ajouter des categories</a>
+
+                    
 
                     <br> <br>
                     <a id="retour" href="{{ url('/') }}">Retour</a>

@@ -27,9 +27,16 @@
     <a href="/supprimer_produit/{{ $product->id }}">
         Supprimer
     </a>
+
+    <br> <br> 
+    <a href="/ajouter_panier/{{ $product->id }}">
+        Ajouter au panier
+    </a>
+
+
     @endforeach
         <br> <br> 
-    <a id="retour" href="{{ url('/') }}">Retour</a>
+    <a id="retour" href="{{ url('/admin') }}">Retour</a>
 
 </body>
 </html>

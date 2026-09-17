@@ -20,7 +20,12 @@
         <br> <br> 
 
         <button type="submit" >Enregistrer </button>
-        <a id="retour" href="{{ url('/') }}" class="btn btn-outline-secondary btn-lg">Retour</a>
+
+        <br> <br> 
+        <a id="retour" href="{{ url('/liste_categories') }}" class="btn btn-outline-secondary btn-lg">Acceder à la liste de catégories</a>
+
+        <br> <br> 
+        <a id="retour" href="{{ url('/admin') }}" class="btn btn-outline-secondary btn-lg">Retour sur la page admin</a>
 
     
 

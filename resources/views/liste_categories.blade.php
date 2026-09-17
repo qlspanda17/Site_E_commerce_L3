@@ -32,7 +32,7 @@
     @endforeach
 
     <br> <br> 
-    <a id="retour" href="{{ url('/') }}">Retour</a>
+    <a id="retour" href="{{ url('/admin') }}">Retour</a>
     
 </body>
 </html>
