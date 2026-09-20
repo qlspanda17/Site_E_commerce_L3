@@ -16,10 +16,12 @@ class PanierController extends Controller
 
         $produits = [];
 
+        $total = 0;
+
         
         foreach($panier as $id => $quantite)
         {
-            $product = Product::find($id);
+            $product = Product::findOrFail($id);
 
             if ($product) { 
 
@@ -28,11 +30,13 @@ class PanierController extends Controller
                     'quantite' => $quantite
                 ];
 
+                
+
             }
         }
 
 
-        $total = 0;
+        
 
         foreach($produits as $item)
 
@@ -78,6 +82,25 @@ class PanierController extends Controller
 
 
     }
+
+    public function retirer($id)
+    {
+    $panier = session()->get('panier', []);
+
+    if(isset($panier[$id]))
+    {
+        $panier[$id]--;
+
+        if($panier[$id] <= 0)
+        {
+            unset($panier[$id]);
+        }
+    }
+
+    session()->put('panier', $panier);
+
+    return redirect('/panier');
+    }   
 
 
 

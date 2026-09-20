@@ -1,34 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Nouvelle catégorie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <form method="post" action="{{ url('/categorie') }}">
-        @csrf
-    
-        <input type="text" name="nom" />
-        <label  for="nom"> Nom de la categorie </label>
 
-        <br> <br> 
+    <nav class="navbar navbar-light bg-light border-bottom">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">Pancha — Administration</span>
+        </div>
+    </nav>
 
-        <input type="text" name="description" />
-        <label  for="description"> Description </label>
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
 
-        <br> <br> 
+                <h1 class="h3 mb-4">Nouvelle catégorie</h1>
 
-        <button type="submit" >Enregistrer </button>
+                <form method="post" action="{{ url('/categorie') }}">
+                    @csrf
 
-        <br> <br> 
-        <a id="retour" href="{{ url('/liste_categories') }}" class="btn btn-outline-secondary btn-lg">Acceder à la liste de catégories</a>
+                    <div class="mb-3">
+                        <label class="form-label" for="nom">Nom de la catégorie</label>
+                        <input type="text" name="nom" id="nom" class="form-control" />
+                    </div>
 
-        <br> <br> 
-        <a id="retour" href="{{ url('/admin') }}" class="btn btn-outline-secondary btn-lg">Retour sur la page admin</a>
+                    <div class="mb-3">
+                        <label class="form-label" for="description">Description</label>
+                        <input type="text" name="description" id="description" class="form-control" />
+                    </div>
 
-    
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <a href="{{ url('/liste_categories') }}" class="btn btn-outline-secondary">Voir la liste</a>
+                    <a href="{{ url('/admin') }}" class="btn btn-link">Retour admin</a>
 
-    </form>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

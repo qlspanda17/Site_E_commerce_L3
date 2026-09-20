@@ -19,6 +19,7 @@ class ConnexionController extends Controller
 {
      public function connexion_index() {
 
+
             return view('connexion') ;
 
 
@@ -38,24 +39,27 @@ class ConnexionController extends Controller
 
             ]);
 
-                if ( $request->role == 'admin') {
+            $credentials = $request->only('email','password') ;
+                
 
-                    return redirect()->route('admin'); 
+            
 
-
+               if ( Auth::attempt($credentials, $request->boolean('souvenir'))) {
+ 
+                    if (Auth::user()->role =="admin") {
+ 
+                        return redirect('/admin');
+                    }
+ 
+                        return redirect()->route('welcome_index'); 
+                    
+ 
+ 
                 }
 
-                $credentials = $request->only('email','password') ;
+            return back()->withErrors(['email' => 'Email ou mot de passe incorrect.'])->onlyInput('email');
 
-                if ( Auth::attempt($credentials, $request->boolean('souvenir'))) {
-
-                    return redirect()->route('welcome_index'); 
-
-
-                }
-
-
-
+         
         }
 
         public function deconnexion(): RedirectResponse {
@@ -73,4 +77,8 @@ class ConnexionController extends Controller
 
         }
 
+        
+
 }
+
+

@@ -20,7 +20,7 @@ class CategorieController extends Controller
 
 
 
-    public function traiterCategorie(Request $request) {
+    public function traiter_categorie(Request $request) {
 
 
         $request->validate([
@@ -47,7 +47,7 @@ class CategorieController extends Controller
 
 
 
-    public function listeCategories()
+    public function liste_categories()
 {
     $categories = Categorie::all();
 
@@ -63,7 +63,7 @@ class CategorieController extends Controller
 
 
 
-    public function modifierCategorie($id)
+    public function modifier_categorie($id)
 {
     $categorie = Categorie::find($id);
 
@@ -80,10 +80,10 @@ class CategorieController extends Controller
 
 
 
-    public function majCategorie(Request $request,$id)
+    public function maj_categorie(Request $request,$id)
 
 {
-    $categorie = Categorie::find($id);
+    $categorie = Categorie::findOrFail($id);
 
     $categorie->nom = $request->nom;
     $categorie->description = $request->description;
@@ -98,9 +98,9 @@ class CategorieController extends Controller
 
 
 
-    public function supprimerCategorie($id)
+    public function supprimer_categorie($id)
 {
-    $categorie = Categorie::find($id);
+    $categorie = Categorie::findOrFail($id);
 
     $categorie->delete();
 

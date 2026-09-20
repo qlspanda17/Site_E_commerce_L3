@@ -1,50 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mon panier</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
 
-     <h1>Mon panier</h1>
+    <nav class="navbar navbar-light bg-light border-bottom">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">Pancha</span>
+        </div>
+    </nav>
 
-        
-        @foreach($produits as $item)
+    <div class="container py-4">
 
-        <p>
+        <h1 class="h3 mb-4">Mon panier</h1>
 
-            {{ $item['product']->nom }}
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($produits as $item)
+                <tr>
+                    <td>{{ $item['product']->nom }}</td>
+                    <td>{{ $item['product']->prix }} €</td>
+                    <td>{{ $item['quantite'] }}</td>
+                    <td class="text-end">
+                        <a href="/retirer_panier/{{ $item['product']->id }}" class="btn btn-outline-danger btn-sm">Retirer</a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-            -
+        <h2 class="h4">Total : {{ $total }} €</h2>
 
-            {{ $item['product']->prix }} €
+        <form action="{{ route('commande_valider') }}" method="post" class="mb-3">
+            @csrf
+            <button type="submit" class="btn btn-primary">Valider la commande</button>
+        </form>
 
-            -
+        <a href="{{ url('/liste_produits') }}" class="btn btn-outline-secondary">Accéder aux produits</a>
 
-            Quantité :
+    </div>
 
-            {{ $item['quantite'] }}
-
-
-
-
-        </p>
-
-
-
-        @endforeach
-
-            <h2>Total : {{ $total }} € </h2>
-
-
-
-
-
-    <br> <br> 
-    <a id="inscrit" href="{{ url('/liste_produits') }}" class="btn btn-outline-secondary btn-lg"> Acceder au produit produits</a>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

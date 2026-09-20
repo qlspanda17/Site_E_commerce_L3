@@ -17,7 +17,7 @@ class ProduitAdminController extends Controller
 
     }
 
-    public function traiterProduit(Request $request) {
+    public function traiter_produit(Request $request) {
 
         $request->validate([
 
@@ -49,7 +49,7 @@ class ProduitAdminController extends Controller
     }
 
 
-    public function listeProduits()
+    public function liste_produits()
 {
         $products = Product::all();
 
@@ -62,10 +62,10 @@ class ProduitAdminController extends Controller
 }
 
   
-        public function modifierProduit($id)
+        public function modifier_produit($id)
         {
 
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         $categories = Categorie::all() ;
 
         
@@ -76,9 +76,9 @@ class ProduitAdminController extends Controller
         }
 
 
-    public function majProduit(Request $request,$id)
+    public function maj_produit(Request $request,$id)
         {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         
         $product->nom = $request->nom;
         
@@ -97,10 +97,10 @@ class ProduitAdminController extends Controller
 
         
 
-        public function supprimerProduit(Request $request,$id)
+        public function supprimer_produit(Request $request,$id)
         {
 
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         
         $product->delete() ;
         

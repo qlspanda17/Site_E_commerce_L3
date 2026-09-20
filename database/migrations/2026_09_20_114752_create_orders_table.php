@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parcels', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('adresse_dep') ;
-            $table->string('adresse_arr') ;
-            $table->decimal('poids',8,2) ;
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->decimal('total',8,2);
+            $table->string('status')->default('en_attente');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('parcels');
+        Schema::dropIfExists('orders');
     }
 };
