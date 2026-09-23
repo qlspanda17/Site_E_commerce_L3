@@ -18,7 +18,17 @@
 
         <h1 class="h3 mb-4">Nos produits</h1>
 
+        <div class="mb-4">
+        <a href="{{ route('produit_index') }}" class="btn btn-sm btn-outline-secondary">Toutes</a>
+
+        @foreach($categories as $categorie)
+            <a href="{{ route('produit_index', ['categorie_id' => $categorie->id]) }}" class="btn btn-sm btn-outline-secondary">{{ $categorie->nom }}</a>
+        @endforeach
+        </div>
+
         <div class="row g-3">
+
+
             @foreach($products as $product)
             <div class="col-md-4">
                 <div class="card shadow-sm h-100">

@@ -22,6 +22,7 @@ Route::get('/produits/{product}', [ProduitController::class, 'produit_afficher']
 Route::get('/panier', [PanierController::class, 'panier_index'])->name('panier_index');
 Route::get('/ajouter_panier/{id}', [PanierController::class, 'ajouter'])->name('ajouter');
 Route::get('/retirer_panier/{id}', [PanierController::class, 'retirer'])->name('retirer');
+Route::view('/terme', 'terme')->name('terme');
 
 
 //VISITEURS
@@ -42,7 +43,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/deconnexion', [ConnexionController::class, 'deconnexion'])->name('deconnexion');
     Route::post('/commande', [CommandeController::class, 'valider'])->name('commande_valider');
     Route::get('/mes_commandes', [CommandeController::class, 'index'])->name('commandes_index');
-});
+    Route::delete('/supprimer_compte', [ConnexionController::class, 'supprimer_compte'])->name('supprimer_compte');
+    Route::get('/commande', [CommandeController::class, 'formulaire'])->name('commande_formulaire');
+    Route::post('/commande', [CommandeController::class, 'valider'])->name('commande_valider');
+
+    });
 
 
 //ADMIN

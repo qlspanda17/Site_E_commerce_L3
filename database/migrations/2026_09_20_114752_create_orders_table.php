@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
@@ -16,13 +13,14 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->decimal('total',8,2);
             $table->string('status')->default('en_attente');
+            $table->string('nom_livraison');
+            $table->string('adresse_livraison');
+            $table->text('message')->nullable();
+            $table->string('mode_livraison');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('orders');

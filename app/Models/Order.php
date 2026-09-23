@@ -9,7 +9,11 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'total',
-        'status'
+        'status',
+        'nom_livraison',
+        'adresse_livraison',
+        'message',
+        'mode_livraison'
     ];
 
     public function items()

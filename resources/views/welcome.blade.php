@@ -38,6 +38,12 @@
                 @csrf
                 <button type="submit" class="btn btn-outline-danger">Se déconnecter</button>
             </form>
+            <br> <br>
+            <form action="{{ route('supprimer_compte') }}" method="post" onsubmit="return confirm('Supprimer définitivement votre compte ?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-outline-danger">Supprimer mon compte</button>
+            </form>
 
         @else
 

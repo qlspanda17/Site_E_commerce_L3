@@ -23,13 +23,23 @@ class InscriptionController extends Controller
         public function inscription_store(Request $request) {
 
 
-            $validator = Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), 
+            
+            
+            [
 
 
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|email|unique:users',
-            'password' => 'required|string|min:6|confirmed'
-        
+            'password' => 'required|string|min:6|confirmed',
+            'conditions' => 'required'
+        ] ,
+
+        [
+
+            'conditions.required' => 'Veuillez accepter les termes et services'
+
+
         ]);
 
 

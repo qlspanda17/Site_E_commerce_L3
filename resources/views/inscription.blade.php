@@ -55,8 +55,13 @@
                     <div class="mb-3 form-check">
                         <input type="checkbox" name="conditions" id="conditions" class="form-check-input" />
                         <label class="form-check-label" for="conditions">
-                            J'accepte tous les <a href="#!">Termes du service</a>
+                            J'accepte tous les <a href="{{ url('/terme') }}">Termes du service</a>
                         </label>
+
+                        @error('conditions')
+                            <div class="text-danger small">{{ $message }}</div>
+                        @enderror
+                        
                     </div>
 
                     <div class="d-grid gap-2">

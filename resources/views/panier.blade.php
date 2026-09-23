@@ -43,10 +43,7 @@
 
         <h2 class="h4">Total : {{ $total }} €</h2>
 
-        <form action="{{ route('commande_valider') }}" method="post" class="mb-3">
-            @csrf
-            <button type="submit" class="btn btn-primary">Valider la commande</button>
-        </form>
+        <a href="{{ route('commande_formulaire') }}" class="btn btn-primary mb-3">Passer commande</a>
 
         <a href="{{ url('/liste_produits') }}" class="btn btn-outline-secondary">Accéder aux produits</a>
 

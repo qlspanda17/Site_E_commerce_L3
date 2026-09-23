@@ -10,8 +10,29 @@ use App\Models\OrderItem;
 
 class CommandeController extends Controller
 {
-    public function valider()
+    public function formulaire()
     {
+        $panier = session()->get('panier', []);
+
+        if (empty($panier)) {
+            return redirect()->route('panier_index')->with('error', 'Votre panier est vide');
+        }
+
+        return view('commande_formulaire');
+    }
+
+    public function valider(Request $request)
+    {
+        $request->validate([
+            'nom_livraison' => 'required|string|max:255',
+            'adresse_livraison' => 'required|string|max:255',
+            'message' => 'nullable|string|max:500',
+            'mode_livraison' => 'required|string',
+            'conditions' => 'required'
+        ], [
+            'conditions.required' => 'Veuillez accepter les conditions générales'
+        ]);
+
         $panier = session()->get('panier', []);
 
         $produits = [];
@@ -41,7 +62,11 @@ class CommandeController extends Controller
 
         $order = Order::create([
             'user_id' => Auth::id(),
-            'total' => $total
+            'total' => $total,
+            'nom_livraison' => $request->nom_livraison,
+            'adresse_livraison' => $request->adresse_livraison,
+            'message' => $request->message,
+            'mode_livraison' => $request->mode_livraison
         ]);
 
         foreach ($produits as $item) {

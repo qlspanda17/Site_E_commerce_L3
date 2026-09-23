@@ -52,7 +52,8 @@ class DatabaseSeeder extends Seeder
             'nom' => 'Bouquet de roses rouges',
             'description' => '12 roses rouges à longue tige',
             'prix' => 29.90,
-            'stock' => 25
+            'stock' => 25,
+            'image' => 'images/produits/bouquet_de_roses_rouges.webp'
         ]);
         $roses->categories()->attach([$bouquets->id]);
 

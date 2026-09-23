@@ -70,11 +70,26 @@ class ConnexionController extends Controller
             
             Auth::logout() ;
 
+            
+
             return redirect('/')->with('status','Déconnection réussis') ;
 
 
 
 
+        }
+
+        public function supprimer_compte(Request $request)
+        {
+            $user = Auth::user();
+
+            Auth::logout();
+
+            Session::flush();
+
+            $user->delete();
+
+            return redirect('/')->with('status', 'Compte supprimé');
         }
 
         
