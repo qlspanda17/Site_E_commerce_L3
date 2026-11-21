@@ -1,61 +1,63 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pancha</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+@extends('layouts.app')
 
-    <nav class="navbar navbar-light bg-light border-bottom">
-        <div class="container">
-            <span class="navbar-brand mb-0 h1">Pancha</span>
-        </div>
-    </nav>
+@section('titre', 'Accueil')
 
-    <div class="container py-5 text-center">
+@section('contenu')
 
-        <h1 class="mb-3">Pancha</h1>
-        <p class="lead mb-4">Bienvenue chez Pancha, le leader du marché des fleuristes en France</p>
+    {{-- Bannière d'accueil --}}
+    <div class="p-4 p-md-5 mb-5 rounded-3 bg-success-subtle text-center">
+        <h1 class="display-5 fw-bold text-success">Pancha</h1>
+        <p class="lead mb-4">Bouquets, plantes et fleurs tropicales livrés chez vous.</p>
+        <a href="{{ route('produit_index') }}" class="btn btn-success btn-lg">Voir tous les produits</a>
 
-        <a href="{{ route('produit_index') }}" class="btn btn-primary btn-lg mb-4">Voir les produits</a>
-
-        @auth
-
-            <p>Salut {{ Auth::user()->name }}.</p>
-
-            @if(Auth::user()->role == 'admin')
-                <a href="{{ route('admin') }}" class="btn btn-outline-secondary">Accéder à la page Admin</a>
-            @endif
-
-            <div class="mt-3">
-                <a href="{{ route('commandes_index') }}" class="btn btn-outline-secondary">Mes commandes</a>
-                <a href="{{ route('panier_index') }}" class="btn btn-outline-secondary">Mon panier</a>
-            </div>
-
-            <form action="{{ route('deconnexion') }}" method="post" class="mt-3">
-                @csrf
-                <button type="submit" class="btn btn-outline-danger">Se déconnecter</button>
-            </form>
-            <br> <br>
-            <form action="{{ route('supprimer_compte') }}" method="post" onsubmit="return confirm('Supprimer définitivement votre compte ?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-outline-danger">Supprimer mon compte</button>
-            </form>
-
-        @else
-
-            <div>
-                <a href="{{ route('inscription_index') }}" class="btn btn-outline-secondary">Inscrivez-vous</a>
-                <a href="{{ route('connexion_index') }}" class="btn btn-outline-secondary">Connectez-vous</a>
-            </div>
-
-        @endauth
-
+        @guest
+            <p class="mt-3 mb-0">
+                <a href="{{ route('connexion_index') }}">Connectez-vous</a> ou
+                <a href="{{ route('inscription_index') }}">créez un compte</a> pour passer commande.
+            </p>
+        @endguest
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    {{-- Catégories --}}
+    <h2 class="h4 mb-3">Nos catégories</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-5">
+        @foreach($categories as $categorie)
+            <div class="col">
+                <a href="{{ route('produit_index', ['categorie_id' => $categorie->id]) }}" class="card h-100 text-decoration-none text-dark shadow-sm">
+                    <div class="card-body">
+                        <h3 class="h6 card-title text-success">{{ $categorie->nom }}</h3>
+                        <p class="card-text small text-muted mb-1">{{ $categorie->description }}</p>
+                        <span class="small">{{ $categorie->products_count }} produit(s)</span>
+                    </div>
+                </a>
+            </div>
+        @endforeach
+    </div>
+
+    {{-- Aperçu de quelques produits --}}
+    <h2 class="h4 mb-3">Nouveautés</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 mb-5">
+        @forelse($produits_vedette as $product)
+            <div class="col">
+                @include('composants.carte_produit', ['product' => $product])
+            </div>
+        @empty
+            <p class="text-muted">Aucun produit pour le moment.</p>
+        @endforelse
+    </div>
+
+    @auth
+        {{-- Gestion du compte --}}
+        <div class="card border-danger-subtle">
+            <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-2">
+                <span>Connecté en tant que <strong>{{ Auth::user()->name }}</strong> ({{ Auth::user()->email }})</span>
+                <form action="{{ route('supprimer_compte') }}" method="post" onsubmit="return confirm('Supprimer définitivement votre compte et vos commandes ?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Supprimer mon compte</button>
+                </form>
+            </div>
+        </div>
+    @endauth
+
+@endsection

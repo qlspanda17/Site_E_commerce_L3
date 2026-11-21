@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class MotDePasseController extends Controller
 {
@@ -15,22 +15,37 @@ class MotDePasseController extends Controller
 
     public function envoyer(Request $request)
     {
-        Password::sendResetLink($request->only('email'));
+        $request->validate([
+            'email' => 'required|email'
+        ]);
 
-        return back()->with('success', 'Un email de réinitialisation a été envoyé.');
+        $statut = Password::sendResetLink($request->only('email'));
+
+        if ($statut == Password::RESET_THROTTLED) {
+            return back()->withErrors(['email' => 'Veuillez patienter avant de redemander un lien.'])->onlyInput('email');
+        }
+
+        // même message que l'email existe ou non : on ne révèle pas quels comptes existent
+        return back()->with('success', 'Si un compte existe avec cette adresse, un email de réinitialisation vient d\'être envoyé.');
     }
 
-    public function reset(string $token)
+    public function reset(Request $request, string $token)
     {
         return view('reinitialiser_mot_de_passe', [
             'token' => $token,
-            'email' => request('email'),
+            'email' => $request->query('email')
         ]);
     }
 
     public function maj_mot_de_passe(Request $request)
     {
-        Password::reset(
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|string|min:6|confirmed'
+        ]);
+
+        $statut = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->password = Hash::make($password);
@@ -38,6 +53,10 @@ class MotDePasseController extends Controller
             }
         );
 
-        return redirect()->route('connexion_index')->with('success', 'Mot de passe changé.');
+        if ($statut != Password::PASSWORD_RESET) {
+            return back()->withErrors(['email' => 'Ce lien est invalide ou a expiré.'])->onlyInput('email');
+        }
+
+        return redirect()->route('connexion_index')->with('success', 'Mot de passe changé, vous pouvez vous connecter.');
     }
 }

@@ -2,98 +2,66 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Route;
-use App\Models\Parcel;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
-use Auth ;
-use Session;
-
-
-
+use Illuminate\Support\Facades\Auth;
 
 class ConnexionController extends Controller
 {
-     public function connexion_index() {
+    public function connexion_index()
+    {
+        return view('connexion');
+    }
 
+    public function connexion_store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
-            return view('connexion') ;
+        $credentials = $request->only('email', 'password');
 
+        // Auth::attempt utilise le guard "web" : il vérifie le mot de passe haché (bcrypt)
+        if (Auth::attempt($credentials, $request->boolean('souvenir'))) {
 
+            // nouvel identifiant de session pour éviter la fixation de session (le panier est conservé)
+            $request->session()->regenerate();
 
+            if (Auth::user()->role == 'admin') {
+                return redirect()->intended(route('admin'));
+            }
 
+            // intended : renvoie vers la page demandée avant la connexion (ex : valider la commande)
+            return redirect()->intended(route('welcome_index'));
         }
 
-        public function connexion_store(Request $request): RedirectResponse
-        {
+        return back()->withErrors(['email' => 'Email ou mot de passe incorrect.'])->onlyInput('email');
+    }
 
+    public function deconnexion(Request $request): RedirectResponse
+    {
+        Auth::logout();
 
-            $request->validate([
+        // on vide la session (et donc le panier) et on régénère le jeton CSRF
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-                'email' => 'required',
-                'password' => 'required'
+        return redirect()->route('welcome_index')->with('status', 'Déconnexion réussie');
+    }
 
+    public function supprimer_compte(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
 
-            ]);
+        Auth::logout();
 
-            $credentials = $request->only('email','password') ;
-                
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-            
+        // les commandes de l'utilisateur sont supprimées en cascade (clé étrangère)
+        $user->delete();
 
-               if ( Auth::attempt($credentials, $request->boolean('souvenir'))) {
- 
-                    if (Auth::user()->role =="admin") {
- 
-                        return redirect('/admin');
-                    }
- 
-                        return redirect()->route('welcome_index'); 
-                    
- 
- 
-                }
-
-            return back()->withErrors(['email' => 'Email ou mot de passe incorrect.'])->onlyInput('email');
-
-         
-        }
-
-        public function deconnexion(): RedirectResponse {
-
-            //J'efface d'abord la session , les cookies
-
-            Session::flush() ;
-            
-            Auth::logout() ;
-
-            
-
-            return redirect('/')->with('status','Déconnection réussis') ;
-
-
-
-
-        }
-
-        public function supprimer_compte(Request $request)
-        {
-            $user = Auth::user();
-
-            Auth::logout();
-
-            Session::flush();
-
-            $user->delete();
-
-            return redirect('/')->with('status', 'Compte supprimé');
-        }
-
-        
-
+        return redirect()->route('welcome_index')->with('status', 'Compte supprimé');
+    }
 }
-
-

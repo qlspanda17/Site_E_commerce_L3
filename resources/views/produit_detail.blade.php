@@ -1,42 +1,36 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produit</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+@extends('layouts.app')
 
-    <nav class="navbar navbar-light bg-light border-bottom">
-        <div class="container">
-            <span class="navbar-brand mb-0 h1">Pancha</span>
+@section('titre', $produit->nom)
+
+@section('contenu')
+    <div class="row g-4">
+        <div class="col-md-6">
+            <img src="{{ $produit->url_image() }}" alt="{{ $produit->nom }}" class="img-fluid rounded shadow-sm w-100" style="max-height:420px; object-fit:cover;">
         </div>
-    </nav>
 
-    <div class="container py-4">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
+        <div class="col-md-6">
+            <h1 class="h3">{{ $produit->nom }}</h1>
 
-                <h1 class="h3 mb-3">{{ $produit->nom }}</h1>
-
-                {{-- ICI : le bloc image --}}
-                @if($produit->image)
-                    <img src="{{ asset($produit->image) }}" alt="{{ $produit->nom }}" class="img-fluid mb-3" style="max-height:300px; object-fit:cover;">
-                @else
-                    <img src="{{ asset('images/produits/placeholder.jpg') }}" alt="Pas d'image" class="img-fluid mb-3" style="max-height:300px; object-fit:cover;">
-                @endif
-
-                <p>{{ $produit->description }}</p>
-                <p class="fw-bold">{{ $produit->prix }} €</p>
-
-                <a href="/ajouter_panier/{{ $produit->id }}" class="btn btn-primary">Ajouter au panier</a>
-                <a href="{{ url('/produits') }}" class="btn btn-outline-secondary">Retour</a>
-
+            <div class="mb-3">
+                @foreach($produit->categories as $categorie)
+                    <a href="{{ route('produit_index', ['categorie_id' => $categorie->id]) }}" class="badge bg-success text-decoration-none">{{ $categorie->nom }}</a>
+                @endforeach
             </div>
+
+            <p>{{ $produit->description }}</p>
+            <p class="h4 fw-bold">{{ number_format($produit->prix, 2, ',', ' ') }} €</p>
+
+            @if($produit->stock > 0)
+                <p class="small text-muted">{{ $produit->stock }} en stock</p>
+                <form action="{{ route('panier_ajouter', $produit->id) }}" method="post" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-success">Ajouter au panier</button>
+                </form>
+            @else
+                <p class="text-danger">Rupture de stock</p>
+            @endif
+
+            <a href="{{ route('produit_index') }}" class="btn btn-outline-secondary">Retour aux produits</a>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

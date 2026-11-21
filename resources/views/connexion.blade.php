@@ -1,68 +1,41 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+@extends('layouts.app')
 
-    <nav class="navbar navbar-light bg-light border-bottom">
-        <div class="container">
-            <span class="navbar-brand mb-0 h1">Pancha</span>
-        </div>
-    </nav>
+@section('titre', 'Connexion')
 
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-4">
+@section('contenu')
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <h1 class="h3 mb-4 text-center">Connexion</h1>
 
-                <h1 class="h3 mb-4 text-center">Connexion</h1>
+            <form method="post" action="{{ route('connexion_store') }}">
+                @csrf
 
-                @if (session('error'))
-                    <div class="alert alert-danger">{{ session('error') }}</div>
-                @endif
+                <div class="mb-3">
+                    <label class="form-label" for="email">Votre email</label>
+                    <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" autocomplete="email">
+                    @error('email') <div class="text-danger small">{{ $message }}</div> @enderror
+                </div>
 
-                <form method="post" action="{{ url('/connexion') }}">
-                    @csrf
+                <div class="mb-3">
+                    <label class="form-label" for="password">Mot de passe</label>
+                    <input type="password" name="password" id="password" class="form-control" autocomplete="current-password">
+                    @error('password') <div class="text-danger small">{{ $message }}</div> @enderror
+                </div>
 
-                    <div class="mb-3">
-                        <label class="form-label" for="email">Votre Email</label>
-                        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" />
-                        @error('email')
-                            <div class="text-danger small">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" for="password">Mot de passe</label>
-                        <input type="password" name="password" id="password" class="form-control" />
-                        @error('password')
-                            <div class="text-danger small">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" name="souvenir" id="souvenir" value="1" class="form-check-input" {{ old('souvenir') ? 'checked' : '' }} />
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" name="souvenir" id="souvenir" value="1" class="form-check-input" @checked(old('souvenir'))>
                         <label class="form-check-label" for="souvenir">Se souvenir de moi</label>
                     </div>
+                    <a href="{{ route('mot_de_passe_oublie') }}" class="small">Mot de passe oublié ?</a>
+                </div>
 
-                    <a href="{{ route('mot_de_passe_oublie') }}">Mot de passe oublié ?</a>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">Se connecter</button>
+                </div>
 
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Se connecter</button>
-                        <a href="{{ url('/') }}" class="btn btn-outline-secondary">Retour</a>
-                    </div>
-
-                    <p class="text-center mt-3">Pas encore de compte ? <a href="{{ url('/inscription') }}">Inscrivez-vous</a></p>
-
-                </form>
-
-            </div>
+                <p class="text-center mt-3">Pas encore de compte ? <a href="{{ route('inscription_index') }}">Inscrivez-vous</a></p>
+            </form>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

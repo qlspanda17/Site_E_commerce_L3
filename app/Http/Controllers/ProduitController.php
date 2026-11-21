@@ -10,34 +10,30 @@ class ProduitController extends Controller
 {
     public function produit_index(Request $request)
     {
-        
-        $categories = Categorie::all();
+        $categories = Categorie::orderBy('nom')->get();
 
-        if ($request->categorie_id) {
+        $requete = Product::with('categories')->orderBy('nom');
 
-            $products = Product::whereHas('categories', function ($query) use ($request) {
+        // filtre par catégorie (relation plusieurs-à-plusieurs)
+        if ($request->filled('categorie_id')) {
+            $requete->whereHas('categories', function ($query) use ($request) {
                 $query->where('categories.id', $request->categorie_id);
-            })->get();
-
-        } else {
-
-            $products = Product::all();
+            });
         }
- 
+
         return view('produits', [
-            'products' => $products,
+            'products' => $requete->get(),
             'categories' => $categories,
             'categorie_id' => $request->categorie_id
         ]);
     }
- 
-    public function produit_afficher($product)
+
+    public function produit_afficher($id)
     {
-        $produit = Product::findOrFail($product);
- 
+        $produit = Product::with('categories')->findOrFail($id);
+
         return view('produit_detail', [
             'produit' => $produit
         ]);
-
     }
 }
